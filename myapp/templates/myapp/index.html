@@ -1,12 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログインページ</title>
-</head>
-<body>
-    <button onclick="location.href='./login'">ログイン</button>
-    <button onclick="location.href='./signup'">会員登録</button>
-</body>
-</html>
+{% extends "myapp/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+    <link rel="stylesheet" type="text/css" href="/static/myapp/css/index.css" />
+{% endblock %}
+
+{% block header %}{% endblock header %}
+
+{% block content %}
+<div class="main-content">
+    <div class="button1">
+        <button onclick="location.href='./login'">ログイン</button>
+    </div>
+    <div class="button2">
+        <button onclick="location.href='./signup'">会員登録</button>
+    </div>
+</div>
+{% endblock  %}
+{% block footer %}{% endblock  %}

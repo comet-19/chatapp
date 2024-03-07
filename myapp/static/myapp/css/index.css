@@ -1,0 +1,13 @@
+body {
+    height: 100vh;
+}
+
+.main-content {
+    margin-top: 40vh;
+}
+
+
+.button1, .button2 {
+    margin: 10% 0;
+    text-align: center;
+}
