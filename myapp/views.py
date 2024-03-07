@@ -7,9 +7,11 @@ from .forms import SignUpForm, CustomLoginForm
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
+from django.http import request
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from .models import CustomUser
+from django.contrib.auth.forms import UserCreationForm
 
 class IndexView(TemplateView):
     template_name = 'myapp/index.html'

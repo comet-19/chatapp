@@ -1,4 +1,30 @@
 {% extends "myapp/base.html" %}
 {% load static %}
 
+{% block extra_style %}
+    <link rel="stylesheet" type="text/css" href="/static/myapp/css/friends.css" />
+{% endblock %}
+
 {% block header-title %}友達{% endblock header-title %}
+
+
+{% block content %}
+
+    <div class="all-friends-box">
+
+        {% for friend in friends %}
+
+            <div class="friend-box">
+                <div class="friend-icon">
+                    <img src="/media/{{friend.image}}" alt="">
+                </div>
+                <div>
+                    {{friend.username}}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock content %}
+
