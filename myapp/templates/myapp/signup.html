@@ -4,7 +4,7 @@
 {% block header-title %}会員登録{% endblock %}
 {% block content %}
     {# signup処理部分 #}
-    <form method="post" action="{% url 'signup' %}">
+    <form method="post" action="{% url 'signup' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
         <tr>
@@ -29,6 +29,8 @@
         </tr>
         </table>
         <input type="submit" value="会員登録" />
+
+        
 {% endblock content %}
 
 {% block footer %}{% endblock  %}
