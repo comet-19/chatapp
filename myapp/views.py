@@ -29,7 +29,7 @@ class SignupView(CreateView):
 
 class CustomLoginView(LoginView):
     form_class = CustomLoginForm
-    template_name = 'myapp/login.html'  # ログインページのテンプレート名を指定
+    template_name = 'myapp/login.html'
     
 
 class FriendsView(ListView):
@@ -40,5 +40,12 @@ class FriendsView(ListView):
 class Talk_RoomView(TemplateView):
     template_name = "myapp/talk_room.html"
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        friend_id = kwargs['friend_id']
+        context['friend_id'] = friend_id 
+        return context
+    
+        
 class SettingView(TemplateView):
     template_name = "myapp/setting.html"

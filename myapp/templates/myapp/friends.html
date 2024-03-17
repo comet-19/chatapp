@@ -2,29 +2,28 @@
 {% load static %}
 
 {% block extra_style %}
-    <link rel="stylesheet" type="text/css" href="/static/myapp/css/friends.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'myapp/css/friends.css' %}" />
 {% endblock %}
 
 {% block header-title %}友達{% endblock header-title %}
-
 
 {% block content %}
 
     <div class="all-friends-box">
 
         {% for friend in friends %}
-
-            <div class="friend-box">
-                <div class="friend-icon">
-                    <img src="/media/{{friend.image}}" alt="">
-                </div>
-                <div>
-                    {{friend.username}}
-                </div>
-            </div>
+            <a href="{% url 'talk_room' friend.id %}">
+                <button class="friend-box">
+                    <div class="friend-icon">
+                        <img src="/media/{{friend.image}}" alt="">
+                    </div>
+                    <div>
+                        {{friend.username}}
+                    </div>
+                </button>
+            </a>
         {% endfor %}
 
     </div>
 
 {% endblock content %}
-
