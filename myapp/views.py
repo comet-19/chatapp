@@ -1,17 +1,21 @@
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
+from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
-from .forms import SignUpForm, CustomLoginForm
+from myapp.forms import SignUpForm, CustomLoginForm
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.http import request
 from django.contrib.auth import authenticate
 from django.contrib import messages
-from .models import CustomUser
+from myapp.models import CustomUser
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import LogoutView
+from .forms import ChangeEmailForm
 
 class IndexView(TemplateView):
     template_name = 'myapp/index.html'
@@ -49,3 +53,41 @@ class Talk_RoomView(TemplateView):
         
 class SettingView(TemplateView):
     template_name = "myapp/setting.html"
+    
+class ChangeUsernameView(UpdateView):
+    model = CustomUser
+    fields = ['username']
+    template_name = 'myapp/change_username.html'
+    success_url = reverse_lazy('setting')
+
+    def get_object(self, queryset=None):
+        # ログイン中のユーザーを取得して返す
+        return self.request.user
+    
+class ChangeEmailView(UpdateView):
+    model = CustomUser
+    form_class = ChangeEmailForm
+    template_name = 'myapp/change_email.html'
+    success_url = reverse_lazy('setting')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+    
+class ChangeIconView(UpdateView):
+    model = CustomUser
+    fields = ['image']
+    template_name = 'myapp/change_icon.html'
+    success_url = reverse_lazy('setting')
+    
+    def get_object(self, queryset=None):
+        return self.request.user
+    
+class ChangePasswordView(PasswordChangeView):
+    template_name = 'myapp/change_password.html'
+    success_url = reverse_lazy('setting')
+    
+class CustomLogoutView(LogoutView):
+    next_page = reverse_lazy('index')
+    
+    
+

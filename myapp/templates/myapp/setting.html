@@ -4,9 +4,28 @@
 {% block header-title %}設定{% endblock header-title %}
 
 {% block content %}
+    <form method="get">
+        {% csrf_token %}
+        <button type="submit" formaction="{% url 'change_username' %}">ユーザー名変更</button>
+    </form>
 
-    <div>
-        <button onclick="location.href='.'">ログアウト</button>
-    </div>    
+    <form method="get">
+        {% csrf_token %}
+        <button type="submit" formaction="{% url 'change_email' %}">メールアドレス変更</button>
+    </form>
 
+    <form method="get">
+        {% csrf_token %}
+        <button type="submit" formaction="{% url 'change_icon' %}">アイコン変更</button>
+    </form>
+
+    <form method="get">
+        {% csrf_token %}
+        <button type="submit" formaction="{% url 'change_password' %}">パスワード変更</button>
+    </form>
+
+    <form method="get">
+        {% csrf_token %}
+        <button type="submit" formaction="{% url 'logout' %}">ログアウト</button>
+    </form>
 {% endblock content %}

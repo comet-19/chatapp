@@ -1,0 +1,20 @@
+{% extends 'myapp/base.html' %}
+
+{% block extra_style %}
+    <!-- ここに追加のCSSスタイルを定義する -->
+{% endblock %}
+
+{% block header-title %}
+    メールアドレス変更
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <h2>メールアドレス変更</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">変更する</button>
+        </form>
+    </div>
+{% endblock %}
