@@ -40,6 +40,12 @@ class FriendsView(ListView):
     model = CustomUser
     context_object_name = 'friends'
     template_name = "myapp/friends.html"
+    
+    
+    def get_queryset(self):
+        queryset = CustomUser.objects.exclude(id=self.request.user.id)
+        return queryset
+    
 
 class Talk_RoomView(TemplateView):
     template_name = "myapp/talk_room.html"
@@ -47,7 +53,11 @@ class Talk_RoomView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         friend_id = kwargs['friend_id']
-        context['friend_id'] = friend_id 
+        friend = CustomUser.objects.get(id=friend_id)
+        context["friend"] = friend
+        # context['friend_id'] = friend_id
+        print(context)
+        
         return context
     
         
