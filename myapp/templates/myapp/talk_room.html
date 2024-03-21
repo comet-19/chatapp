@@ -9,3 +9,14 @@
 ここはトークルームです
 
 {% endblock content %}
+
+
+{% block footer %}
+
+<form method="post" action="{% url 'talk_room' friend_id=friend.id %}">
+    {% csrf_token %}
+    {{ form.message }}
+    <button type="submit">送信</button>
+</form>
+
+{% endblock %}

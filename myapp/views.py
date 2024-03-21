@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.views.generic.base import TemplateView
+from django.views.generic import FormView
 from django.views.generic.edit import CreateView
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
@@ -11,11 +12,12 @@ from django.http import HttpResponseRedirect
 from django.http import request
 from django.contrib.auth import authenticate
 from django.contrib import messages
-from myapp.models import CustomUser
+from myapp.models import CustomUser, Message
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.views import LogoutView
-from .forms import ChangeEmailForm
+from .forms import ChangeEmailForm, MessageForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class IndexView(TemplateView):
     template_name = 'myapp/index.html'
@@ -47,18 +49,32 @@ class FriendsView(ListView):
         return queryset
     
 
-class Talk_RoomView(TemplateView):
+class TalkRoomView(LoginRequiredMixin, TemplateView, FormView):
     template_name = "myapp/talk_room.html"
-    
+    form_class = MessageForm
+    # success_url = get_success_url()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         friend_id = kwargs['friend_id']
         friend = CustomUser.objects.get(id=friend_id)
         context["friend"] = friend
-        # context['friend_id'] = friend_id
-        print(context)
-        
+        message_list = Message.objects.filter(receive_user=friend_id, send_user=self.request.user)
+        print(message_list)
         return context
+
+    def form_valid(self, form):
+        message = form.save(commit=False)
+        message.send_user = self.request.user
+        friend_id = self.kwargs['friend_id']
+        message.receive_user = CustomUser.objects.get(id=friend_id)
+        message.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        friend_id = self.kwargs["friend_id"]
+        return reverse_lazy('talk_room', kwargs={'friend_id': friend_id})
+
     
         
 class SettingView(TemplateView):
