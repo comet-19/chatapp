@@ -18,6 +18,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.views import LogoutView
 from .forms import ChangeEmailForm, MessageForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 class IndexView(TemplateView):
     template_name = 'myapp/index.html'
@@ -47,6 +48,7 @@ class FriendsView(ListView):
     def get_queryset(self):
         queryset = CustomUser.objects.exclude(id=self.request.user.id)
         return queryset
+
     
 
 class TalkRoomView(LoginRequiredMixin, TemplateView, FormView):
@@ -59,8 +61,12 @@ class TalkRoomView(LoginRequiredMixin, TemplateView, FormView):
         friend_id = kwargs['friend_id']
         friend = CustomUser.objects.get(id=friend_id)
         context["friend"] = friend
-        message_list = Message.objects.filter(receive_user=friend_id, send_user=self.request.user)
+        message_list = Message.objects.filter(
+            Q(send_user=self.request.user, receive_user=friend_id) |
+            Q(send_user=friend_id, receive_user=self.request.user)
+        ).order_by('date')
         print(message_list)
+        context["message_list"] = message_list
         return context
 
     def form_valid(self, form):

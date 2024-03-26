@@ -1,6 +1,10 @@
 {% extends "myapp/base.html" %}
 {% load static %}
 
+{% block extra_style %}
+    <link rel="stylesheet" type="text/css" href="/static/myapp/css/talk_room.css" />
+{% endblock %}
+
 {% block header-title %}{{friend.username}}{% endblock header-title %}
 
 
@@ -8,15 +12,30 @@
 
 ここはトークルームです
 
+
+
+<div class="all-messages-box">
+    {% for message in message_list %}
+    <div class="message-box">
+        {{ message.send_user }} -> {{ message.receive_user }} : {{message.message}} ({{message.date|date:'m/d H:i'}})
+    </div>
+    {% endfor %}
+</div>
+
 {% endblock content %}
 
 
 {% block footer %}
+<footer class="footer">
+    <div class="footer-container">
+        <form method="post" action="{% url 'talk_room' friend_id=friend.id %}">
+            {% csrf_token %}
+            {{ form.message }}
+            <button type="submit">送信</button>
+        </form>
+    </div>
+</footer>
 
-<form method="post" action="{% url 'talk_room' friend_id=friend.id %}">
-    {% csrf_token %}
-    {{ form.message }}
-    <button type="submit">送信</button>
-</form>
+
 
 {% endblock %}
