@@ -11,7 +11,7 @@
 
     <div class="all-friends-box">
 
-        {% for friend, last_message in friend_details.items %}
+        {% for friend in friend_details %}
         <a href="{% url 'talk_room' friend.id %}">
             <button class="friend-box">
                 <div class="friend-icon">
@@ -21,8 +21,8 @@
                     {{ friend.username }}
                 </div>
                 <div>
-                    {% if last_message %}
-                        --------------{{ last_message.message }}-------{{last_message.date}}
+                    {% if friend.latest_message %}
+                        --------------{{ friend.latest_message }}-------{{ friend.latest_message_date }}
                     {% endif %}
                 </div>
             </button>

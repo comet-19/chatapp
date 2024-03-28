@@ -18,7 +18,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.views import LogoutView
 from .forms import ChangeEmailForm, MessageForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from django.db.models import Q, Max, OuterRef, Subquery
 
 class IndexView(TemplateView):
     template_name = 'myapp/index.html'
@@ -45,7 +45,26 @@ class FriendsView(ListView):
     template_name = "myapp/friends.html"
     
     def get_queryset(self):
-        queryset = CustomUser.objects.exclude(id=self.request.user.id)
+        user = self.request.user
+        
+        latest_message_subquery = Message.objects.filter(
+            Q(send_user=user, receive_user=OuterRef("id")) |
+            Q(send_user=OuterRef("id"), receive_user=user)
+        ).order_by("-date")[:1]
+
+        # サブクエリを使ってCustomUserのクエリをフィルタリングして注釈を付ける
+        queryset = CustomUser.objects.exclude(id=user.id).annotate(
+            latest_message=Subquery(latest_message_subquery.values("message")),
+            latest_message_date=Subquery(latest_message_subquery.values("date"))
+        ).order_by("-latest_message_date", "-date_joined")
+        for friend in queryset:
+            print(friend)
+        # friend_ids_with_latest_messages = [msg['receive_user'] for msg in latest_messages]
+        # print("#", friend_ids_with_latest_messages)
+        
+        # friends_ordered_by_latest_message = CustomUser.objects.filter(id__in=friend_ids_with_latest_messages).order_by('-message__date')
+        # print(friends_ordered_by_latest_message)
+        
         return queryset
     
     def get_context_data(self, **kwargs):
@@ -61,7 +80,7 @@ class FriendsView(ListView):
             ).order_by('-date').first()
             friend_details[friend] = last_message
         
-        context["friend_details"] = friend_details
+        context["friend_details"] = self.get_queryset
         print(context['friend_details'])
         return context
     
