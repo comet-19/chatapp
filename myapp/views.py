@@ -44,11 +44,26 @@ class FriendsView(ListView):
     context_object_name = 'friends'
     template_name = "myapp/friends.html"
     
-    
     def get_queryset(self):
         queryset = CustomUser.objects.exclude(id=self.request.user.id)
         return queryset
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        user = self.request.user
+        all_friends = CustomUser.objects.exclude(id=user.id)
+        
+        friend_details = {}
+        for friend in all_friends:
+            last_message = Message.objects.filter(
+                (Q(send_user=user, receive_user=friend) | Q(send_user=friend, receive_user=user))
+            ).order_by('-date').first()
+            friend_details[friend] = last_message
+        
+        context["friend_details"] = friend_details
+        print(context['friend_details'])
+        return context
     
 
 class TalkRoomView(LoginRequiredMixin, TemplateView, FormView):
@@ -65,7 +80,6 @@ class TalkRoomView(LoginRequiredMixin, TemplateView, FormView):
             Q(send_user=self.request.user, receive_user=friend_id) |
             Q(send_user=friend_id, receive_user=self.request.user)
         ).order_by('date')
-        print(message_list)
         context["message_list"] = message_list
         return context
 
