@@ -6,12 +6,17 @@
 {% endblock %}
 
 {% block header-title %}
-    <div>
+    <div class="back-page">
         <a href="{% url 'friends' %}">
             戻る
         </a>
     </div>
     {{friend.username}}
+    <div class="refresh">
+        <button id="refresh-button">
+            更新
+        </button>
+    </div>
 {% endblock header-title %}
 
 
@@ -42,6 +47,12 @@
         </form>
     </div>
 </footer>
+
+<script>
+    document.getElementById("refresh-button").addEventListener("click", function() {
+        location.reload(); // ページをリロード
+    });
+</script>
 
 
 

@@ -30,3 +30,13 @@ footer {
 .footer-container {
     background-color: white;
 }
+
+.back-page {
+    position: absolute;
+}
+
+.refresh {
+    position: absolute;
+    right: 20px;
+    top: -5px;
+}
