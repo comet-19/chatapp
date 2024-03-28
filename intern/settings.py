@@ -129,3 +129,6 @@ LOGIN_REDIRECT_URL = '/friends'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media_local'
+
+TIME_ZONE = 'Asia/Tokyo'
+USE_TZ = True

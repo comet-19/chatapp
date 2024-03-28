@@ -15,7 +15,7 @@ class Message(models.Model):
     message = models.CharField((""), max_length=50)
     send_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="send_message")
     receive_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="receive_message")
-    date = models.DateTimeField(default=timezone.now())
+    date = models.DateTimeField(default=timezone.now)
     
     class Meta:
         ordering = ['date']
