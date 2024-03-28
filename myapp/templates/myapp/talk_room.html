@@ -5,7 +5,14 @@
     <link rel="stylesheet" type="text/css" href="/static/myapp/css/talk_room.css" />
 {% endblock %}
 
-{% block header-title %}{{friend.username}}{% endblock header-title %}
+{% block header-title %}
+    <div>
+        <a href="{% url 'friends' %}">
+            戻る
+        </a>
+    </div>
+    {{friend.username}}
+{% endblock header-title %}
 
 
 {% block content %}
