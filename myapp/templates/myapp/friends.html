@@ -12,21 +12,32 @@
     <div class="all-friends-box">
 
         {% for friend in friend_details %}
-        <a href="{% url 'talk_room' friend.id %}">
-            <button class="friend-box">
-                <div class="friend-icon">
-                    <img src="/media/{{ friend.image }}" alt="">
-                </div>
-                <div class="friend-name">
-                    <p>{{ friend.username }}</p>
-                </div>
-                <div>
-                    {% if friend.latest_message %}
-                        {{ friend.latest_message }}-------{{ friend.latest_message_date|date:'m/d H:i' }}
-                    {% endif %}
-                </div>
-            </button>
-        </a>
+        <div class="one-friend-box">
+            <a href="{% url 'talk_room' friend.id %}">
+                <button class="friend-box">
+                    <div class="friend-icon">
+                        <img src="/media/{{ friend.image }}" alt="">
+                    </div>
+                    <div class="content-box">
+                        <div class="friend-name">
+                            <p>{{ friend.username }}</p>
+                        </div>
+                        <div class="message-box">
+                            {% if friend.latest_message %}
+                            <div class="left-message">
+                                {{ friend.latest_message }}
+                            </div>
+                            <div class="right-message">
+                                {{ friend.latest_message_date|date:'m/d H:i' }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+    
+                </button>
+            </a>
+        </div>
+
     {% endfor %}
     </div>
 
