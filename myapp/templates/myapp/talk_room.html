@@ -25,7 +25,12 @@
 <div class="all-messages-box">
     {% for message in message_list %}
     <div class="message-box">
-        {{ message.send_user }} -> {{ message.receive_user }} : {{message.message}} ({{message.date|date:'m/d H:i'}})
+        <div>
+            {{ message.send_user }} -> {{ message.receive_user }}
+        </div>
+        <div>
+            {{message.message}} ({{message.date|date:'m/d H:i'}})
+        </div>
     </div>
     {% endfor %}
 </div>
