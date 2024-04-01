@@ -1,19 +1,23 @@
 {% extends "myapp/base.html" %}
 {% load static %}
 
+{% block extra_style %}
+    <link rel="stylesheet" type="text/css" href="/static/myapp/css/login.css" />
+{% endblock %}
+
 {% block header-title %}ログイン{% endblock %}
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <div>
+        <div class="login-box">
             <label for="id_username">Username:</label>
             <input type="text" id="id_username" name="username">
         </div>
-        <div>
+        <div class="login-box">
             <label for="id_password">Password:</label>
             <input type="password" id="id_password" name="password">
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">ログイン</button>
     </form>
     {% if form.errors %}
         <p>ユーザー名とパスワードが一致しません。</p>

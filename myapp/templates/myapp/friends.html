@@ -17,12 +17,12 @@
                 <div class="friend-icon">
                     <img src="/media/{{ friend.image }}" alt="">
                 </div>
-                <div>
-                    {{ friend.username }}
+                <div class="friend-name">
+                    <p>{{ friend.username }}</p>
                 </div>
                 <div>
                     {% if friend.latest_message %}
-                        --------------{{ friend.latest_message }}-------{{ friend.latest_message_date }}
+                        {{ friend.latest_message }}-------{{ friend.latest_message_date|date:'m/d H:i' }}
                     {% endif %}
                 </div>
             </button>

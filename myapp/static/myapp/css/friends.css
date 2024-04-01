@@ -36,3 +36,10 @@ footer {
 .footer-container {
     background-color: white;
 }
+
+.friend-name {
+    height: 50%;
+    width: 50%;
+    text-align: left;
+    font-size: 20px;
+}
