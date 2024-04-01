@@ -123,7 +123,7 @@ class ChangeUsernameView(UpdateView):
     model = CustomUser
     fields = ['username']
     template_name = 'myapp/change_username.html'
-    success_url = reverse_lazy('setting')
+    success_url = reverse_lazy('change_complete')
 
     def get_object(self, queryset=None):
         # ログイン中のユーザーを取得して返す
@@ -133,7 +133,7 @@ class ChangeEmailView(UpdateView):
     model = CustomUser
     form_class = ChangeEmailForm
     template_name = 'myapp/change_email.html'
-    success_url = reverse_lazy('setting')
+    success_url = reverse_lazy('change_complete')
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -142,14 +142,17 @@ class ChangeIconView(UpdateView):
     model = CustomUser
     fields = ['image']
     template_name = 'myapp/change_icon.html'
-    success_url = reverse_lazy('setting')
+    success_url = reverse_lazy('change_complete')
     
     def get_object(self, queryset=None):
         return self.request.user
     
 class ChangePasswordView(PasswordChangeView):
     template_name = 'myapp/change_password.html'
-    success_url = reverse_lazy('setting')
+    success_url = reverse_lazy('change_complete')
+    
+class ChangeCompleteView(TemplateView):
+    template_name = 'myapp/change_complete.html'
     
 class CustomLogoutView(LogoutView):
     next_page = reverse_lazy('index')

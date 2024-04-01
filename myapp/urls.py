@@ -15,6 +15,7 @@ urlpatterns = [
     path('setting/change_email', views.ChangeEmailView.as_view(), name='change_email'),
     path('setting/change_icon', views.ChangeIconView.as_view(), name='change_icon'),
     path('setting/change_password', views.ChangePasswordView.as_view(), name='change_password'),
+    path('setting/change_complete', views.ChangeCompleteView.as_view(), name='change_complete'),
     path('logout/', views.CustomLogoutView.as_view(), name='logout'),
 ]
 
